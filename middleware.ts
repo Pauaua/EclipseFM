@@ -1,0 +1,45 @@
+import { auth } from "@/lib/auth";
+import { NextResponse } from "next/server";
+
+export default auth((req) => {
+  const { nextUrl, auth: session } = req;
+  const pathname = nextUrl.pathname;
+  const isLoggedIn = !!session;
+  const role = session?.user?.role;
+
+  // Root redirect
+  if (pathname === "/") {
+    if (!isLoggedIn) return NextResponse.redirect(new URL("/login", nextUrl));
+    if (role === "ADMIN") return NextResponse.redirect(new URL("/dashboard", nextUrl));
+    if (role === "TEAM") return NextResponse.redirect(new URL("/team", nextUrl));
+  }
+
+  // Login page: redirect if already authenticated
+  if (pathname === "/login") {
+    if (isLoggedIn) {
+      if (role === "ADMIN") return NextResponse.redirect(new URL("/dashboard", nextUrl));
+      if (role === "TEAM") return NextResponse.redirect(new URL("/team", nextUrl));
+    }
+    return NextResponse.next();
+  }
+
+  // Dashboard routes: require ADMIN
+  if (pathname.startsWith("/dashboard")) {
+    if (!isLoggedIn) return NextResponse.redirect(new URL("/login", nextUrl));
+    if (role !== "ADMIN") return NextResponse.redirect(new URL("/login", nextUrl));
+    return NextResponse.next();
+  }
+
+  // Team routes: require TEAM
+  if (pathname.startsWith("/team")) {
+    if (!isLoggedIn) return NextResponse.redirect(new URL("/login", nextUrl));
+    if (role !== "TEAM") return NextResponse.redirect(new URL("/login", nextUrl));
+    return NextResponse.next();
+  }
+
+  return NextResponse.next();
+});
+
+export const config = {
+  matcher: ["/", "/login", "/dashboard/:path*", "/team/:path*"],
+};
