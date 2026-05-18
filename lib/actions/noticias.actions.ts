@@ -41,6 +41,10 @@ export async function getPublishedNoticias() {
   return prisma.noticia.findMany({ where: { publicado: true }, orderBy: { createdAt: "desc" } });
 }
 
+export async function getPublishedNoticiaBySlug(slug: string) {
+  return prisma.noticia.findFirst({ where: { slug, publicado: true } });
+}
+
 export async function createNoticia(data: Omit<z.infer<typeof noticiaSchema>, "slug"> & { slug?: string }) {
   const session = await requireEditor();
   const slug = data.slug || generateSlug(data.titulo);

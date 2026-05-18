@@ -24,7 +24,15 @@ type Program = {
   createdAt: Date;
 };
 
-const DIAS_SEMANA = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+const DIAS_SEMANA = [
+  { label: "Lunes", value: "LUNES" },
+  { label: "Martes", value: "MARTES" },
+  { label: "Miércoles", value: "MIERCOLES" },
+  { label: "Jueves", value: "JUEVES" },
+  { label: "Viernes", value: "VIERNES" },
+  { label: "Sábado", value: "SABADO" },
+  { label: "Domingo", value: "DOMINGO" },
+];
 const CATEGORIAS = [
   { value: "MUSICA", label: "Música" },
   { value: "ENTRETENIMIENTO", label: "Entretenimiento" },
@@ -147,7 +155,7 @@ export function ProgramasClient({ initialPrograms }: { initialPrograms: Program[
 
             <div className="text-xs text-[#A89EC0] space-y-1">
               <p>⏰ {p.horarioInicio} – {p.horarioFin}</p>
-              <p>📅 {p.dias.join(", ")}</p>
+              <p>📅 {p.dias.map(d => DIAS_SEMANA.find(x => x.value === d)?.label ?? d).join(", ")}</p>
             </div>
 
             <div className="flex gap-2 mt-auto pt-2 border-t border-[rgba(124,58,237,0.1)]">
@@ -180,16 +188,16 @@ export function ProgramasClient({ initialPrograms }: { initialPrograms: Program[
             <div className="flex flex-wrap gap-2">
               {DIAS_SEMANA.map((dia) => (
                 <button
-                  key={dia}
+                  key={dia.value}
                   type="button"
-                  onClick={() => toggleDia(dia)}
+                  onClick={() => toggleDia(dia.value)}
                   className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
-                    form.dias.includes(dia)
+                    form.dias.includes(dia.value)
                       ? "bg-[#E8D44D] text-[#0D0825]"
                       : "bg-[rgba(124,58,237,0.1)] text-[#A89EC0] border border-[rgba(124,58,237,0.3)]"
                   }`}
                 >
-                  {dia}
+                  {dia.label}
                 </button>
               ))}
             </div>

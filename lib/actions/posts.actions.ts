@@ -41,6 +41,10 @@ export async function getPublishedPosts() {
   return prisma.post.findMany({ where: { publicado: true }, orderBy: { createdAt: "desc" } });
 }
 
+export async function getPublishedPostBySlug(slug: string) {
+  return prisma.post.findFirst({ where: { slug, publicado: true } });
+}
+
 export async function createPost(data: Omit<z.infer<typeof postSchema>, "slug"> & { slug?: string }) {
   const session = await requireEditor();
   const slug = data.slug || generateSlug(data.titulo);

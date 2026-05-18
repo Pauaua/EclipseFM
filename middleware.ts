@@ -7,15 +7,7 @@ export default auth((req) => {
   const isLoggedIn = !!session;
   const role = session?.user?.role;
 
-  // Root redirect
-  if (pathname === "/") {
-    if (!isLoggedIn) return NextResponse.redirect(new URL("/login", nextUrl));
-    if (role === "ADMIN") return NextResponse.redirect(new URL("/dashboard", nextUrl));
-    if (role === "SUBADMIN") return NextResponse.redirect(new URL("/subadmin", nextUrl));
-    if (role === "TEAM") return NextResponse.redirect(new URL("/team", nextUrl));
-  }
-
-  // Login page: redirect if already authenticated
+  // Login: redirigir a panel si ya está autenticado
   if (pathname === "/login") {
     if (isLoggedIn) {
       if (role === "ADMIN") return NextResponse.redirect(new URL("/dashboard", nextUrl));
@@ -25,21 +17,21 @@ export default auth((req) => {
     return NextResponse.next();
   }
 
-  // Dashboard routes: require ADMIN
+  // Dashboard: solo ADMIN
   if (pathname.startsWith("/dashboard")) {
     if (!isLoggedIn) return NextResponse.redirect(new URL("/login", nextUrl));
     if (role !== "ADMIN") return NextResponse.redirect(new URL("/login", nextUrl));
     return NextResponse.next();
   }
 
-  // Subadmin routes: require SUBADMIN
+  // Subadmin: solo SUBADMIN
   if (pathname.startsWith("/subadmin")) {
     if (!isLoggedIn) return NextResponse.redirect(new URL("/login", nextUrl));
     if (role !== "SUBADMIN") return NextResponse.redirect(new URL("/login", nextUrl));
     return NextResponse.next();
   }
 
-  // Team routes: require TEAM
+  // Team: solo TEAM
   if (pathname.startsWith("/team")) {
     if (!isLoggedIn) return NextResponse.redirect(new URL("/login", nextUrl));
     if (role !== "TEAM") return NextResponse.redirect(new URL("/login", nextUrl));
@@ -50,5 +42,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/", "/login", "/dashboard/:path*", "/subadmin/:path*", "/team/:path*"],
+  matcher: ["/login", "/dashboard/:path*", "/subadmin/:path*", "/team/:path*"],
 };

@@ -15,8 +15,8 @@ const bebasNeue = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
-  title: "Eclipse FM 107.7 — Panel Interno",
-  description: "Panel de gestión interno de Radio Eclipse FM",
+  title: "Eclipse FM 107.7 — Quilicura, Chile",
+  description: "Radio Eclipse FM 107.7 — Tu radio en el espacio. Música, noticias y entretenimiento desde Quilicura.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
