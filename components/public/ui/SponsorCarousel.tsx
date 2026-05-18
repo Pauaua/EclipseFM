@@ -12,7 +12,7 @@ const LOGOS: Record<string, string> = {
 
 const URLS: Record<string, string> = {
   "Aguas Mi Sur": "https://www.aguasmisur.cl",
-  "BikeCraft": "/",
+  "BikeCraft": "https://www.bikecraft.cl",
   "Phantasia": "https://phantasia.cl",
 };
 
