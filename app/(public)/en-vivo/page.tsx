@@ -4,8 +4,8 @@ import { useState, useRef } from "react";
 import { LiveDot } from "@/components/public/ui/LiveDot";
 import { WaveBars } from "@/components/public/ui/WaveBars";
 
-const STREAM_URL = "";
-const CHAT_EMBED_URL = "";
+const STREAM_URL = "https://audio2.tustreaming.cl/8030/stream";
+const CHAT_EMBED_URL = "https://www6.cbox.ws/box/?boxid=864700&boxtag=DXv1bJ";
 
 export default function EnVivoPage() {
   const [playing, setPlaying] = useState(false);

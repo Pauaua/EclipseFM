@@ -47,9 +47,27 @@ export default async function HomePage() {
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}>107.7 FM</p>
+            <p
+              className="text-base sm:text-lg tracking-[0.35em] uppercase mt-2 font-light"
+              style={{
+                background: "linear-gradient(90deg, transparent 0%, #A89EC0 20%, #E8D44D 50%, #A89EC0 80%, transparent 100%)",
+                backgroundSize: "200% auto",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                animation: "shimmer-text 4s linear infinite",
+              }}
+            >
+              La voz de Quilicura
+            </p>
+            <style>{`
+              @keyframes shimmer-text {
+                0%   { background-position: 200% center; }
+                100% { background-position: -200% center; }
+              }
+            `}</style>
           </div>
           <p className="text-gray-soft text-sm sm:text-base max-w-[480px] leading-relaxed px-2">
-            Música, noticias y entretenimiento desde Quilicura para Chile y el mundo. Más de 6 años siendo tu compañía en el espacio.
+            Música, noticias y entretenimiento desde Quilicura para Chile y el mundo. Más de 18 años siendo tu compañía en el espacio.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-2 w-full px-4 sm:px-0 sm:w-auto">
             <Link href="/en-vivo"
@@ -71,7 +89,7 @@ export default async function HomePage() {
         <div className="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-0 divide-x divide-purple-border/50">
           {[
             { num: "+10K", label: "Oyentes diarios" },
-            { num: "6+", label: "Años al aire" },
+            { num: "18+", label: "Años al aire" },
             { num: "107.7", label: "Quilicura FM" },
             { num: "24/7", label: "Online & en el aire" },
           ].map((s) => (
