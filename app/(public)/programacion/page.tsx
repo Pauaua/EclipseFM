@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { getPrograms } from "@/lib/actions/programs.actions";
+import { PageHero } from "@/components/public/ui/PageHero";
+import { SectionTag } from "@/components/public/ui/SectionTag";
 
 export const metadata: Metadata = {
   title: "Programación",
   description: "Grilla de programación semanal de Radio Eclipse FM 107.7. Consulta los horarios de todos nuestros programas.",
   openGraph: { title: "Programación | Eclipse FM 107.7", description: "Grilla semanal de Eclipse FM 107.7 — horarios de todos los programas." },
 };
-import { PageHero } from "@/components/public/ui/PageHero";
-import { SectionTag } from "@/components/public/ui/SectionTag";
 
 const DIAS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 const DIA_KEYS: Record<string, string> = {
@@ -16,14 +16,12 @@ const DIA_KEYS: Record<string, string> = {
 };
 
 const CAT_COLORS: Record<string, string> = {
-  MUSICAL: "rgba(124,58,237,0.6)",
-  NOTICIAS: "rgba(239,68,68,0.6)",
+  MUSICA: "rgba(124,58,237,0.6)",
   ENTRETENIMIENTO: "rgba(232,212,77,0.6)",
-  DEPORTES: "rgba(34,197,94,0.6)",
+  CIUDADANO: "rgba(239,68,68,0.6)",
+  BIENESTAR: "rgba(34,197,94,0.6)",
+  RETRO: "rgba(249,115,22,0.6)",
   CULTURAL: "rgba(236,72,153,0.6)",
-  INFANTIL: "rgba(249,115,22,0.6)",
-  RELIGIOSO: "rgba(99,102,241,0.6)",
-  OTRO: "rgba(107,114,128,0.6)",
 };
 
 export default async function ProgramacionPage() {
@@ -75,7 +73,7 @@ export default async function ProgramacionPage() {
                               <div className="flex items-center gap-2">
                                 <span
                                   className="w-2 h-2 rounded-full flex-shrink-0"
-                                  style={{ background: CAT_COLORS[p.categoria] ?? CAT_COLORS.OTRO }}
+                                  style={{ background: CAT_COLORS[p.categoria] ?? "rgba(107,114,128,0.6)" }}
                                 />
                                 <span className="text-yellow-DEFAULT text-[11px] font-mono font-bold">
                                   {p.horarioInicio} – {p.horarioFin}

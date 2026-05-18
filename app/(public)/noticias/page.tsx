@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import { getPublishedNoticias } from "@/lib/actions/noticias.actions";
+import { PageHero } from "@/components/public/ui/PageHero";
+import { SectionTag } from "@/components/public/ui/SectionTag";
+import { NoticiaCardFeatured, NoticiaCardGrid } from "@/components/public/ui/NoticiaCard";
+import { SponsorSidebar } from "@/components/public/ui/SponsorSidebar";
 
 export const metadata: Metadata = {
   title: "Noticias",
   description: "Últimas noticias de Quilicura y Chile en Eclipse FM 107.7. Información local en tiempo real.",
   openGraph: { title: "Noticias | Eclipse FM 107.7", description: "Últimas noticias de Quilicura y Chile en Eclipse FM 107.7." },
 };
-import { PageHero } from "@/components/public/ui/PageHero";
-import { SectionTag } from "@/components/public/ui/SectionTag";
-import { NoticiaCardFeatured, NoticiaCardGrid } from "@/components/public/ui/NoticiaCard";
-import { SponsorSidebar } from "@/components/public/ui/SponsorSidebar";
 
 export default async function NoticiasPage() {
   const noticias = await getPublishedNoticias();

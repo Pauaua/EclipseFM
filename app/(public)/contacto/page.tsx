@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { PageHero } from "@/components/public/ui/PageHero";
+import { enviarContacto } from "@/lib/actions/contacto.actions";
 
 const INFO = [
   { icon: "📍", label: "Dirección", value: "Av. O'Higgins #208 con Lo Bascuñán, Quilicura" },
@@ -15,6 +16,7 @@ export default function ContactoPage() {
   const [form, setForm] = useState({ nombre: "", email: "", asunto: "", mensaje: "" });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -23,8 +25,15 @@ export default function ContactoPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    await new Promise(r => setTimeout(r, 800));
-    setSent(true);
+    setError("");
+
+    const result = await enviarContacto(form);
+
+    if (result.success) {
+      setSent(true);
+    } else {
+      setError(result.error ?? "Error al enviar el mensaje.");
+    }
     setLoading(false);
   }
 
@@ -106,7 +115,6 @@ export default function ContactoPage() {
               >
                 <h3 className="font-display text-xl sm:text-2xl text-white tracking-wide">Envíanos un mensaje</h3>
 
-                {/* Nombre + Email: stack en móvil, lado a lado en sm+ */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[11px] text-gray-mid uppercase tracking-widest">Nombre</label>
@@ -167,6 +175,10 @@ export default function ContactoPage() {
                     style={inputStyle}
                   />
                 </div>
+
+                {error && (
+                  <p className="text-red-400 text-xs text-center">{error}</p>
+                )}
 
                 <button
                   type="submit"

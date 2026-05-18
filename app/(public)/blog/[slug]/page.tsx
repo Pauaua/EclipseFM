@@ -5,6 +5,11 @@ import { getPublishedPostBySlug, getPublishedPosts } from "@/lib/actions/posts.a
 import { BlogCardGrid } from "@/components/public/ui/BlogCard";
 import { SponsorSidebar } from "@/components/public/ui/SponsorSidebar";
 
+export async function generateStaticParams() {
+  const posts = await getPublishedPosts();
+  return posts.map((p) => ({ slug: p.slug }));
+}
+
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = await getPublishedPostBySlug(params.slug);
   if (!post) return { title: "Artículo no encontrado" };

@@ -5,6 +5,11 @@ import { getPublishedNoticiaBySlug, getPublishedNoticias } from "@/lib/actions/n
 import { NoticiaCardGrid } from "@/components/public/ui/NoticiaCard";
 import { SponsorSidebar } from "@/components/public/ui/SponsorSidebar";
 
+export async function generateStaticParams() {
+  const noticias = await getPublishedNoticias();
+  return noticias.map((n) => ({ slug: n.slug }));
+}
+
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const noticia = await getPublishedNoticiaBySlug(params.slug);
   if (!noticia) return { title: "Noticia no encontrada" };

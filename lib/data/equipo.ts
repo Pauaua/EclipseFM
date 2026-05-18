@@ -1,5 +1,5 @@
 export const equipo = [
-  { id: 1, nombre: "Richard Acuña Briceño", rol: "Director General", programa: "Eclipse FM 107.7", emoji: "🎙️", bio: "Fundador y director de Eclipse FM. Más de 6 años liderando la radio comunitaria de Quilicura." },
+  { id: 1, nombre: "Richard Acuña Briceño", rol: "Director General", programa: "Eclipse FM 107.7", emoji: "🎙️", bio: "Fundador y director de Eclipse FM. Más de 18 años liderando la radio comunitaria de Quilicura." },
   { id: 2, nombre: "Leo Bahamondes", rol: "Locutor / Conductor", programa: "Voces de Chile", emoji: "🎤", bio: "La voz de la música chilena en Eclipse FM. Conduce Voces de Chile con pasión por la cultura y el folclore nacional." },
   { id: 3, nombre: "Jimbo Animador", rol: "Conductor / Animador", programa: "Tarde de Locura", emoji: "😄", bio: "El animador más divertido de Eclipse FM. Llena de humor y energía los sábados por la tarde." },
   { id: 4, nombre: "Kathya Neira", rol: "Conductora", programa: "La Tarde Entremovida", emoji: "🎵", bio: "Conductora de La Tarde Entremovida, el espacio de cumbia, latin pop y música urbana del fin de semana." },

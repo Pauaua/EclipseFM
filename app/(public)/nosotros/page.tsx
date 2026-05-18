@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/public/ui/PageHero";
+import { SectionTag } from "@/components/public/ui/SectionTag";
+import { equipo } from "@/lib/data/equipo";
 
 export const metadata: Metadata = {
   title: "Nosotros",
   description: "Conoce la historia de Radio Eclipse FM 107.7, 18 años al aire desde Quilicura para Chile y el mundo.",
   openGraph: { title: "Nosotros | Eclipse FM 107.7", description: "18 años al aire desde Quilicura. Conoce nuestra historia y equipo." },
 };
-import { SectionTag } from "@/components/public/ui/SectionTag";
-import { equipo } from "@/lib/data/equipo";
 
 const valores = [
   { icon: "📻", titulo: "Compromiso Comunitario", desc: "Somos la voz de Quilicura, comprometidos con el desarrollo y las necesidades de nuestra comunidad." },
@@ -23,7 +23,7 @@ export default function NosotrosPage() {
         breadcrumb="Nosotros"
         titleWhite="Quiénes"
         titleYellow="Somos"
-        subtitle="Más de 6 años siendo la banda sonora de Quilicura y su comunidad."
+        subtitle="Más de 18 años siendo la banda sonora de Quilicura y su comunidad."
       />
 
       {/* Historia */}
@@ -45,14 +45,14 @@ export default function NosotrosPage() {
               </p>
               <p>
                 Hoy, con más de <span className="text-yellow-DEFAULT font-semibold">10.000 oyentes diarios</span>,
-                más de 6 años en el rubro radial y transmisión online 24/7, seguimos creciendo con el mismo espíritu
+                más de 18 años en el rubro radial y transmisión online 24/7, seguimos creciendo con el mismo espíritu
                 de servicio y amor por la radio.
               </p>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3 sm:gap-4">
             {[
-              { num: "2018", label: "Año de fundación" },
+              { num: "2008", label: "Año de fundación" },
               { num: "+10K", label: "Oyentes diarios" },
               { num: "107.7", label: "Frecuencia FM" },
               { num: "24/7", label: "En el aire" },

@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import { getPublishedPosts } from "@/lib/actions/posts.actions";
+import { PageHero } from "@/components/public/ui/PageHero";
+import { SectionTag } from "@/components/public/ui/SectionTag";
+import { BlogCardFeatured, BlogCardGrid } from "@/components/public/ui/BlogCard";
+import { SponsorSidebar } from "@/components/public/ui/SponsorSidebar";
 
 export const metadata: Metadata = {
   title: "Blog",
   description: "Artículos, historias y novedades del equipo de Eclipse FM 107.7 desde Quilicura.",
   openGraph: { title: "Blog | Eclipse FM 107.7", description: "Artículos, historias y novedades del equipo de Eclipse FM 107.7 desde Quilicura." },
 };
-import { PageHero } from "@/components/public/ui/PageHero";
-import { SectionTag } from "@/components/public/ui/SectionTag";
-import { BlogCardFeatured, BlogCardGrid } from "@/components/public/ui/BlogCard";
-import { SponsorSidebar } from "@/components/public/ui/SponsorSidebar";
 
 export default async function BlogPage() {
   const posts = await getPublishedPosts();
