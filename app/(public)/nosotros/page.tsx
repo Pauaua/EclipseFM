@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { PageHero } from "@/components/public/ui/PageHero";
+
+export const metadata: Metadata = {
+  title: "Nosotros",
+  description: "Conoce la historia de Radio Eclipse FM 107.7, 18 años al aire desde Quilicura para Chile y el mundo.",
+  openGraph: { title: "Nosotros | Eclipse FM 107.7", description: "18 años al aire desde Quilicura. Conoce nuestra historia y equipo." },
+};
 import { SectionTag } from "@/components/public/ui/SectionTag";
 import { equipo } from "@/lib/data/equipo";
 

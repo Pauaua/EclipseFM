@@ -1,8 +1,31 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { getPublishedNoticiaBySlug, getPublishedNoticias } from "@/lib/actions/noticias.actions";
 import { NoticiaCardGrid } from "@/components/public/ui/NoticiaCard";
 import { SponsorSidebar } from "@/components/public/ui/SponsorSidebar";
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const noticia = await getPublishedNoticiaBySlug(params.slug);
+  if (!noticia) return { title: "Noticia no encontrada" };
+  return {
+    title: noticia.titulo,
+    description: noticia.resumen ?? `Última noticia de Quilicura en Eclipse FM 107.7`,
+    openGraph: {
+      title: noticia.titulo,
+      description: noticia.resumen ?? `Última noticia de Quilicura en Eclipse FM 107.7`,
+      type: "article",
+      publishedTime: noticia.createdAt.toISOString(),
+      authors: [noticia.autor],
+      images: noticia.imagen ? [{ url: noticia.imagen }] : [{ url: "/logo.png" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: noticia.titulo,
+      description: noticia.resumen ?? `Última noticia de Quilicura en Eclipse FM 107.7`,
+    },
+  };
+}
 
 function formatDate(date: Date) {
   return new Date(date).toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" });

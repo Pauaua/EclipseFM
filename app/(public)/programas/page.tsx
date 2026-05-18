@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { getPrograms } from "@/lib/actions/programs.actions";
+
+export const metadata: Metadata = {
+  title: "Programas",
+  description: "Descubre todos los programas de Radio Eclipse FM 107.7. Música, entretenimiento e información desde Quilicura.",
+  openGraph: { title: "Programas | Eclipse FM 107.7", description: "Todos los programas de Eclipse FM 107.7 — Quilicura." },
+};
 import { PageHero } from "@/components/public/ui/PageHero";
 import { SectionTag } from "@/components/public/ui/SectionTag";
 import { ProgramCard } from "@/components/public/ui/ProgramCard";

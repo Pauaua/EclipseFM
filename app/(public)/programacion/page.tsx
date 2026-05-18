@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { getPrograms } from "@/lib/actions/programs.actions";
+
+export const metadata: Metadata = {
+  title: "Programación",
+  description: "Grilla de programación semanal de Radio Eclipse FM 107.7. Consulta los horarios de todos nuestros programas.",
+  openGraph: { title: "Programación | Eclipse FM 107.7", description: "Grilla semanal de Eclipse FM 107.7 — horarios de todos los programas." },
+};
 import { PageHero } from "@/components/public/ui/PageHero";
 import { SectionTag } from "@/components/public/ui/SectionTag";
 

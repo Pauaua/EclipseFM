@@ -1,8 +1,31 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { getPublishedPostBySlug, getPublishedPosts } from "@/lib/actions/posts.actions";
 import { BlogCardGrid } from "@/components/public/ui/BlogCard";
 import { SponsorSidebar } from "@/components/public/ui/SponsorSidebar";
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const post = await getPublishedPostBySlug(params.slug);
+  if (!post) return { title: "Artículo no encontrado" };
+  return {
+    title: post.titulo,
+    description: post.resumen ?? `Lee este artículo en el blog de Eclipse FM 107.7`,
+    openGraph: {
+      title: post.titulo,
+      description: post.resumen ?? `Lee este artículo en el blog de Eclipse FM 107.7`,
+      type: "article",
+      publishedTime: post.createdAt.toISOString(),
+      authors: [post.autor],
+      images: post.imagen ? [{ url: post.imagen }] : [{ url: "/logo.png" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.titulo,
+      description: post.resumen ?? `Lee este artículo en el blog de Eclipse FM 107.7`,
+    },
+  };
+}
 
 function formatDate(date: Date) {
   return new Date(date).toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" });
