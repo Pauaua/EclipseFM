@@ -23,8 +23,10 @@ type ContentItem = {
 interface ContentManagerProps {
   items: ContentItem[];
   tipo: "blog" | "noticias";
-  onCreate: (data: Partial<ContentItem>) => Promise<{ success: boolean; data?: ContentItem; error?: string }>;
-  onUpdate: (id: string, data: Partial<ContentItem>) => Promise<{ success: boolean; error?: string }>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onCreate: (data: any) => Promise<{ success: boolean; data?: ContentItem | null; error?: string }>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onUpdate: (id: string, data: any) => Promise<{ success: boolean; error?: string }>;
   onDelete: (id: string) => Promise<{ success: boolean }>;
   onToggle: (id: string) => Promise<{ success: boolean; data?: { publicado: boolean } }>;
   autorDefault: string;
