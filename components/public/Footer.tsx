@@ -28,9 +28,8 @@ export async function Footer() {
             </p>
             <div className="flex gap-3">
               {[
-                { icon: "f", label: "Facebook", href: "https://www.facebook.com/RadioEclipse1077FM" },
-                { icon: "ig", label: "Instagram", href: "https://www.instagram.com/radioeclipsefmoficial" },
-                { icon: "x", label: "Twitter/X", href: "https://twitter.com/RadioEclipse_FM" },
+                { icon: "f", label: "Facebook", href: "https://www.facebook.com/eclipsefmquilicura" },
+                { icon: "ig", label: "Instagram", href: "https://www.instagram.com/radio__eclipse/" },
               ].map((s) => (
                 <a
                   key={s.label}
