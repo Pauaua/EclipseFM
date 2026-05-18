@@ -1,15 +1,20 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { EclipseLogo } from "@/components/EclipseLogo";
-import { logoutAction } from "@/lib/actions/auth.actions";
+import { ProfileButton } from "@/components/profile/ProfileButton";
+import { prisma } from "@/lib/prisma";
 
 export default async function TeamLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
   if (!session || session.user.role !== "TEAM") redirect("/login");
 
+  const dbUser = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { nombre: true, apellido: true, email: true, username: true, telefono: true, direccion: true, role: true },
+  });
+
   return (
     <div className="min-h-screen bg-[#0D0825]">
-      {/* Header */}
       <header
         className="flex items-center justify-between px-6 py-4 sticky top-0 z-10"
         style={{
@@ -26,22 +31,10 @@ export default async function TeamLayout({ children }: { children: React.ReactNo
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="text-right">
-            <p className="text-sm font-medium text-white">
-              {session.user.nombre} {session.user.apellido}
-            </p>
-            <p className="text-xs text-[#7B6FA0]">Equipo Eclipse FM</p>
-          </div>
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#7C3AED] to-[#A855F7] flex items-center justify-center text-white font-bold text-sm">
-            {session.user.nombre[0]}
-          </div>
-          <form action={logoutAction}>
-            <button type="submit" className="text-xs text-[#7B6FA0] hover:text-red-400 transition-colors px-2 py-1">
-              Salir
-            </button>
-          </form>
-        </div>
+        <ProfileButton
+          user={dbUser ?? session.user}
+          sublabel="Equipo Eclipse FM"
+        />
       </header>
 
       <main className="max-w-5xl mx-auto px-6 py-8">{children}</main>

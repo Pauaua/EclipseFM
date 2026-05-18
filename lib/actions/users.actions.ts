@@ -14,7 +14,7 @@ const createUserSchema = z.object({
   password: z.string().min(6, "Contraseña mínimo 6 caracteres"),
   telefono: z.string().optional(),
   direccion: z.string().optional(),
-  role: z.nativeEnum(Role),
+  role: z.enum(["ADMIN", "SUBADMIN", "TEAM"]),
 });
 
 async function requireAdmin() {

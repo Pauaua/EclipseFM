@@ -4,6 +4,7 @@ import { useState, FormEvent } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { EclipseLogo } from "@/components/EclipseLogo";
+import { InputPassword } from "@/components/ui/InputPassword";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -94,19 +95,14 @@ export default function LoginPage() {
               />
             </div>
 
-            <div className="flex flex-col gap-1">
-              <label className="text-xs font-medium text-[#A89EC0] uppercase tracking-wide">
-                Contraseña
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-                className="w-full px-4 py-3 rounded-lg bg-[rgba(8,4,26,0.7)] border border-[rgba(124,58,237,0.3)] text-white placeholder-[#7B6FA0] text-sm transition-all duration-200 focus:outline-none focus:border-[#E8D44D] focus:ring-1 focus:ring-[rgba(232,212,77,0.35)]"
-              />
-            </div>
+            <InputPassword
+              label="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+              className="py-3"
+            />
 
             {error && (
               <div className="bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-2.5 text-red-400 text-sm">

@@ -11,6 +11,7 @@ export default auth((req) => {
   if (pathname === "/") {
     if (!isLoggedIn) return NextResponse.redirect(new URL("/login", nextUrl));
     if (role === "ADMIN") return NextResponse.redirect(new URL("/dashboard", nextUrl));
+    if (role === "SUBADMIN") return NextResponse.redirect(new URL("/subadmin", nextUrl));
     if (role === "TEAM") return NextResponse.redirect(new URL("/team", nextUrl));
   }
 
@@ -18,6 +19,7 @@ export default auth((req) => {
   if (pathname === "/login") {
     if (isLoggedIn) {
       if (role === "ADMIN") return NextResponse.redirect(new URL("/dashboard", nextUrl));
+      if (role === "SUBADMIN") return NextResponse.redirect(new URL("/subadmin", nextUrl));
       if (role === "TEAM") return NextResponse.redirect(new URL("/team", nextUrl));
     }
     return NextResponse.next();
@@ -27,6 +29,13 @@ export default auth((req) => {
   if (pathname.startsWith("/dashboard")) {
     if (!isLoggedIn) return NextResponse.redirect(new URL("/login", nextUrl));
     if (role !== "ADMIN") return NextResponse.redirect(new URL("/login", nextUrl));
+    return NextResponse.next();
+  }
+
+  // Subadmin routes: require SUBADMIN
+  if (pathname.startsWith("/subadmin")) {
+    if (!isLoggedIn) return NextResponse.redirect(new URL("/login", nextUrl));
+    if (role !== "SUBADMIN") return NextResponse.redirect(new URL("/login", nextUrl));
     return NextResponse.next();
   }
 
@@ -41,5 +50,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/", "/login", "/dashboard/:path*", "/team/:path*"],
+  matcher: ["/", "/login", "/dashboard/:path*", "/subadmin/:path*", "/team/:path*"],
 };

@@ -1,25 +1,21 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { Sidebar } from "@/components/dashboard/Sidebar";
-import { getPendingProposalsCount } from "@/lib/actions/proposals.actions";
+import { SubadminSidebar } from "@/components/subadmin/SubadminSidebar";
 import { ProfileButton } from "@/components/profile/ProfileButton";
 import { prisma } from "@/lib/prisma";
 
-export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default async function SubadminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
-  if (!session || session.user.role !== "ADMIN") redirect("/login");
+  if (!session || session.user.role !== "SUBADMIN") redirect("/login");
 
-  const [pendingCount, dbUser] = await Promise.all([
-    getPendingProposalsCount(),
-    prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: { nombre: true, apellido: true, email: true, username: true, telefono: true, direccion: true, role: true },
-    }),
-  ]);
+  const dbUser = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { nombre: true, apellido: true, email: true, username: true, telefono: true, direccion: true, role: true },
+  });
 
   return (
     <div className="min-h-screen" style={{ background: "#0D0825" }}>
-      <Sidebar pendingCount={pendingCount} />
+      <SubadminSidebar />
 
       <div className="ml-[240px] min-h-screen flex flex-col">
         <header
@@ -33,7 +29,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
           <div />
           <ProfileButton
             user={dbUser ?? session.user}
-            sublabel="Administrador"
+            sublabel="Sub-Administrador"
           />
         </header>
 

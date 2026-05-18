@@ -18,7 +18,7 @@ type User = {
   username: string;
   email: string;
   telefono: string | null;
-  role: "ADMIN" | "TEAM";
+  role: "ADMIN" | "SUBADMIN" | "TEAM";
   status: "ACTIVE" | "INACTIVE";
   createdAt: Date;
 };
@@ -96,7 +96,7 @@ export function UsuariosClient({ initialUsers }: { initialUsers: User[] }) {
       <div className="flex flex-wrap gap-3 mb-4 items-center justify-between">
         <div className="flex gap-3">
           <Select
-            options={[{ value: "", label: "Todos los roles" }, { value: "ADMIN", label: "Admin" }, { value: "TEAM", label: "Equipo" }]}
+            options={[{ value: "", label: "Todos los roles" }, { value: "ADMIN", label: "Admin" }, { value: "SUBADMIN", label: "Sub-Admin" }, { value: "TEAM", label: "Equipo" }]}
             value={filterRole}
             onChange={(e) => { setFilterRole(e.target.value); setPage(1); }}
             className="w-44"
@@ -203,7 +203,7 @@ export function UsuariosClient({ initialUsers }: { initialUsers: User[] }) {
               label="Rol"
               value={form.role}
               onChange={e => setForm(f => ({ ...f, role: e.target.value }))}
-              options={[{ value: "TEAM", label: "Equipo" }, { value: "ADMIN", label: "Admin" }]}
+              options={[{ value: "TEAM", label: "Equipo" }, { value: "SUBADMIN", label: "Sub-Admin" }, { value: "ADMIN", label: "Admin" }]}
             />
           </div>
           <Input label="Dirección" value={form.direccion} onChange={e => setForm(f => ({ ...f, direccion: e.target.value }))} />

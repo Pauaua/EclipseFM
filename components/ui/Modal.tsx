@@ -1,6 +1,7 @@
 "use client";
 
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface ModalProps {
   open: boolean;
@@ -17,22 +18,47 @@ const sizeClasses = {
 };
 
 export function Modal({ open, onClose, title, children, size = "md" }: ModalProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   useEffect(() => {
     if (open) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "";
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  if (!open) return null;
+  if (!open || !mounted) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+  return createPortal(
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 9999,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "1rem",
+      }}
+    >
+      {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
         onClick={onClose}
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "rgba(0,0,0,0.75)",
+          backdropFilter: "blur(4px)",
+        }}
       />
+
+      {/* Card */}
       <div
-        className={`relative w-full ${sizeClasses[size]} bg-[#1C1040] border border-[rgba(124,58,237,0.3)] rounded-2xl shadow-2xl shadow-purple-900/50 max-h-[90vh] overflow-y-auto`}
+        className={`relative w-full ${sizeClasses[size]} bg-[#1C1040] border border-[rgba(124,58,237,0.3)] rounded-2xl shadow-2xl`}
+        style={{ maxHeight: "85vh", overflowY: "auto", zIndex: 1 }}
       >
         {title && (
           <div className="flex items-center justify-between p-6 border-b border-[rgba(124,58,237,0.2)]">
@@ -47,6 +73,7 @@ export function Modal({ open, onClose, title, children, size = "md" }: ModalProp
         )}
         <div className="p-6">{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

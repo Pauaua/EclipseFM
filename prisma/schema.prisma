@@ -9,6 +9,7 @@ datasource db {
 
 enum Role {
   ADMIN
+  SUBADMIN
   TEAM
 }
 
@@ -109,4 +110,30 @@ model Proposal {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  titulo      String
+  slug        String   @unique
+  resumen     String?
+  contenido   String
+  imagen      String?
+  publicado   Boolean  @default(false)
+  autor       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Noticia {
+  id          String   @id @default(cuid())
+  titulo      String
+  slug        String   @unique
+  resumen     String?
+  contenido   String
+  imagen      String?
+  publicado   Boolean  @default(false)
+  autor       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
