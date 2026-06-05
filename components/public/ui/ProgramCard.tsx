@@ -28,16 +28,12 @@ export function ProgramCard({ program }: { program: Program }) {
 
   return (
     <div className="group bg-space-card border border-purple-border rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300 shadow-card hover:shadow-purple">
-      {/* Thumbnail */}
-      <div className={`h-40 bg-gradient-to-br ${grad} flex items-center justify-center relative`}>
-        <span className="text-5xl">{emoji}</span>
-        <span className="absolute top-3 right-3 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-black/40 text-white tracking-wide">
-          {label}
-        </span>
-      </div>
       {/* Body */}
       <div className="p-5">
-        <h3 className="font-display text-2xl text-white tracking-wide mb-1 leading-tight">{program.titulo}</h3>
+        <div className="flex items-center gap-2.5 mb-2">
+          <span className="text-xl leading-none">{emoji}</span>
+          <h3 className="font-display text-2xl text-white tracking-wide leading-tight">{program.titulo}</h3>
+        </div>
         <p className="text-xs text-gray-mid mb-3">🎙 {program.conductor}</p>
         <p className="text-gray-soft text-sm leading-relaxed line-clamp-2 mb-4">{program.descripcion}</p>
         <div className="pt-4 border-t border-purple-border flex items-center justify-between">
@@ -45,9 +41,14 @@ export function ProgramCard({ program }: { program: Program }) {
             <p>⏰ {program.horarioInicio} – {program.horarioFin}</p>
             <p>📅 {program.dias.slice(0, 3).join(", ")}{program.dias.length > 3 ? "…" : ""}</p>
           </div>
-          <span className="text-xs text-yellow-DEFAULT font-semibold group-hover:translate-x-1 transition-transform">
-            Escuchar →
-          </span>
+          <div className="flex flex-col items-end gap-1.5">
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full tracking-wide" style={{ background: "rgba(124,58,237,0.15)", color: "rgba(168,85,247,0.9)", border: "1px solid rgba(124,58,237,0.2)" }}>
+              {label}
+            </span>
+            <span className="text-xs text-yellow-DEFAULT font-semibold group-hover:translate-x-1 transition-transform">
+              Escuchar →
+            </span>
+          </div>
         </div>
       </div>
     </div>
