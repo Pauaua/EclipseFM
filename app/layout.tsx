@@ -14,7 +14,7 @@ const bebasNeue = Bebas_Neue({
   variable: "--font-bebas",
 });
 
-const BASE_URL = "https://eclipsefm.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.radioeclipsefm.cl";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -48,7 +48,6 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true, "max-image-preview": "large" },
   },
   icons: {
-    icon: "/logo.png",
     apple: "/logo.png",
   },
 };

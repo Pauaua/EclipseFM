@@ -50,7 +50,7 @@ export default async function NoticiaPage({ params }: { params: { slug: string }
     <div className="bg-space-deep min-h-screen">
       {/* Hero */}
       <section
-        className="relative py-20 px-6"
+        className="relative py-12 md:py-20 px-4 sm:px-6"
         style={{
           background: "radial-gradient(ellipse at top center, rgba(239,68,68,0.1) 0%, transparent 70%), #08041A",
           borderBottom: "1px solid rgba(124,58,237,0.1)",
@@ -71,7 +71,7 @@ export default async function NoticiaPage({ params }: { params: { slug: string }
             >NOTICIAS</span>
             <span className="text-gray-mid text-xs">{formatDate(noticia.createdAt)}</span>
           </div>
-          <h1 className="font-display text-4xl md:text-5xl text-white tracking-wide leading-tight mb-6">{noticia.titulo}</h1>
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl text-white tracking-wide leading-tight mb-6">{noticia.titulo}</h1>
           {noticia.resumen && (
             <p className="text-gray-soft text-lg leading-relaxed mb-6">{noticia.resumen}</p>
           )}
@@ -92,7 +92,8 @@ export default async function NoticiaPage({ params }: { params: { slug: string }
         <div
           className="w-full rounded-2xl overflow-hidden flex items-center justify-center mb-10"
           style={{
-            height: "300px",
+            minHeight: "180px",
+            height: "clamp(180px, 30vw, 340px)",
             background: "linear-gradient(135deg, rgba(59,130,246,0.2) 0%, rgba(21,10,53,0.8) 100%)",
             border: "1px solid rgba(124,58,237,0.15)",
           }}
@@ -153,7 +154,7 @@ export default async function NoticiaPage({ params }: { params: { slug: string }
         <section className="py-16 px-6 bg-space-black">
           <div className="max-w-5xl mx-auto">
             <h3 className="font-display text-3xl text-white tracking-wide mb-8">Más Noticias</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
               {related.map(n => <NoticiaCardGrid key={n.id} noticia={n} />)}
             </div>
           </div>

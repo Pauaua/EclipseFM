@@ -28,7 +28,7 @@ export async function enviarContacto(data: ContactoData) {
 
   try {
     await resend.emails.send({
-      from: "Eclipse FM <onboarding@resend.dev>",
+      from: "Eclipse FM <contacto@radioeclipsefm.cl>",
       to: "radioeclipsefm@hotmail.com",
       replyTo: email,
       subject: `[Contacto Web] ${ASUNTOS[asunto] ?? asunto} — ${nombre}`,

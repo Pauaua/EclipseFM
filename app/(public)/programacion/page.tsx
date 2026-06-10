@@ -43,7 +43,7 @@ export default async function ProgramacionPage() {
           {programas.length === 0 ? (
             <p className="text-gray-mid text-center py-20">La programación se publicará próximamente.</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
               {DIAS.map((dia) => {
                 const key = DIA_KEYS[dia];
                 const programasDia = programas.filter(p => p.dias.includes(key));

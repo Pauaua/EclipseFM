@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Eclipse FM 107.7 — Quilicura, Chile",
+  description: "Radio Eclipse FM 107.7 — Tu radio en el espacio. Música, noticias y entretenimiento desde Quilicura para Chile y el mundo. Transmisión 24/7 online y en el aire.",
+  alternates: { canonical: "/" },
+};
 import { getPublishedPosts } from "@/lib/actions/posts.actions";
 import { getPublishedNoticias } from "@/lib/actions/noticias.actions";
 import { getPrograms } from "@/lib/actions/programs.actions";
@@ -16,6 +23,34 @@ async function getSponsors() {
   catch { return []; }
 }
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "RadioStation",
+  name: "Radio Eclipse FM",
+  alternateName: "Eclipse FM 107.7",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.radioeclipsefm.cl",
+  logo: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.radioeclipsefm.cl"}/logo.png`,
+  image: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.radioeclipsefm.cl"}/logo.png`,
+  description: "Radio Eclipse FM 107.7 — Tu radio en el espacio. Música, noticias y entretenimiento desde Quilicura para Chile y el mundo.",
+  broadcastFrequency: "107.7 FM",
+  areaServed: {
+    "@type": "City",
+    name: "Quilicura",
+    addressCountry: "CL",
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+56-9-7477-3659",
+    contactType: "customer service",
+    email: "radioeclipsefm@hotmail.com",
+    availableLanguage: "Spanish",
+  },
+  sameAs: [
+    "https://www.facebook.com/radioeclipsefm",
+    "https://www.instagram.com/radioeclipsefm",
+  ],
+};
+
 export default async function HomePage() {
   const [posts, noticias, programas, sponsors] = await Promise.all([
     getPublishedPosts(),
@@ -26,6 +61,10 @@ export default async function HomePage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* ── HERO ── */}
       <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,rgba(124,58,237,0.35)_0%,transparent_65%)]" />
@@ -66,7 +105,7 @@ export default async function HomePage() {
               }
             `}</style>
           </div>
-          <p className="text-gray-soft text-sm sm:text-base max-w-[480px] leading-relaxed px-2">
+          <p className="text-gray-soft text-sm sm:text-base max-w-[480px] w-full leading-relaxed px-4 sm:px-2">
             Música, noticias y entretenimiento desde Quilicura para Chile y el mundo. Más de 18 años siendo tu compañía en el espacio.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-2 w-full px-4 sm:px-0 sm:w-auto">
@@ -93,7 +132,7 @@ export default async function HomePage() {
             { num: "107.7", label: "Quilicura FM" },
             { num: "24/7", label: "Online & en el aire" },
           ].map((s) => (
-            <div key={s.label} className="flex flex-col items-center py-4 px-2">
+            <div key={s.label} className="flex flex-col items-center py-4 px-1 sm:px-2">
               <span className="font-display text-2xl sm:text-3xl md:text-5xl" style={{
                 background: "linear-gradient(90deg,#E8D44D,#F5E878)",
                 WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
@@ -138,7 +177,7 @@ export default async function HomePage() {
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-white tracking-wide mb-8 md:mb-10">Últimas del Blog</h2>
           {posts.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
                 {posts.slice(0, 3).map(p => <BlogCardGrid key={p.id} post={p} />)}
               </div>
               <div className="text-center mt-10">

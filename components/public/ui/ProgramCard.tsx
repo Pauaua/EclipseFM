@@ -32,7 +32,7 @@ export function ProgramCard({ program }: { program: Program }) {
       <div className="p-5">
         <div className="flex items-center gap-2.5 mb-2">
           <span className="text-xl leading-none">{emoji}</span>
-          <h3 className="font-display text-2xl text-white tracking-wide leading-tight">{program.titulo}</h3>
+          <h3 className="font-display text-xl sm:text-2xl text-white tracking-wide leading-tight">{program.titulo}</h3>
         </div>
         <p className="text-xs text-gray-mid mb-3">🎙 {program.conductor}</p>
         <p className="text-gray-soft text-sm leading-relaxed line-clamp-2 mb-4">{program.descripcion}</p>

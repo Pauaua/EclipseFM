@@ -111,7 +111,7 @@ export function Navbar() {
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="font-display text-2xl sm:text-3xl tracking-wide transition-colors"
+                  className="font-display text-xl sm:text-2xl tracking-wide transition-colors"
                   style={{ color: isActive(l.href) ? "#E8D44D" : "#A89EC0" }}
                 >
                   {l.label}

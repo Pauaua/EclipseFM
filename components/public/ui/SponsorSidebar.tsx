@@ -7,7 +7,7 @@ export function SponsorSidebar({ label = "A" }: { label?: string }) {
       <div
         className="rounded-lg flex flex-col items-center justify-center gap-3 p-6 text-center"
         style={{
-          height: "250px",
+          minHeight: "180px",
           border: "1px dashed rgba(124,58,237,0.2)",
           background: "linear-gradient(135deg, rgba(21,10,53,0.8) 0%, rgba(28,16,64,0.6) 100%)",
         }}

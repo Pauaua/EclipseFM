@@ -40,7 +40,7 @@ export function OnAirBar() {
       {/* Derecha */}
       <Link
         href="/en-vivo"
-        className="w-9 h-9 rounded-full flex items-center justify-center text-space-black text-sm font-bold transition-transform hover:scale-110"
+        className="w-11 h-11 rounded-full flex items-center justify-center text-space-black text-sm font-bold transition-transform hover:scale-110"
         style={{ background: "linear-gradient(135deg, #E8D44D, #F5E878)" }}
         aria-label="Ir al reproductor en vivo"
       >

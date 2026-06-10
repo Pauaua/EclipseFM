@@ -50,14 +50,19 @@ export async function Footer() {
           <div>
             <p className="text-[10px] font-semibold tracking-widest uppercase text-yellow-DEFAULT mb-4">Navegación</p>
             <div className="flex flex-col gap-2">
-              {["/", "/nosotros", "/programas", "/programacion", "/blog", "/noticias", "/contacto"].map((href) => {
-                const label = href === "/" ? "Inicio" : href.replace("/", "").charAt(0).toUpperCase() + href.slice(2);
-                return (
-                  <Link key={href} href={href} className="text-gray-soft text-sm hover:text-yellow-DEFAULT transition-colors">
-                    {label}
-                  </Link>
-                );
-              })}
+              {[
+                { href: "/", label: "Inicio" },
+                { href: "/nosotros", label: "Nosotros" },
+                { href: "/programas", label: "Programas" },
+                { href: "/programacion", label: "Programación" },
+                { href: "/blog", label: "Blog" },
+                { href: "/noticias", label: "Noticias" },
+                { href: "/contacto", label: "Contacto" },
+              ].map(({ href, label }) => (
+                <Link key={href} href={href} className="text-gray-soft text-sm hover:text-yellow-DEFAULT transition-colors">
+                  {label}
+                </Link>
+              ))}
             </div>
           </div>
 

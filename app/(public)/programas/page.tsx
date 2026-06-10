@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getPrograms } from "@/lib/actions/programs.actions";
 import { PageHero } from "@/components/public/ui/PageHero";
 import { SectionTag } from "@/components/public/ui/SectionTag";
-import { ProgramCard } from "@/components/public/ui/ProgramCard";
+import { ProgramasClient } from "./ProgramasClient";
 
 export const metadata: Metadata = {
   title: "Programas",
@@ -13,8 +13,6 @@ export const metadata: Metadata = {
 
 export default async function ProgramasPage() {
   const programas = await getPrograms(true);
-
-  const categorias = ["TODOS", ...Array.from(new Set(programas.map(p => p.categoria)))];
 
   return (
     <>
@@ -30,28 +28,7 @@ export default async function ProgramasPage() {
           <SectionTag text="En el aire" />
 
           {programas.length > 0 ? (
-            <>
-              {/* Categorías - visual only */}
-              <div className="flex flex-wrap gap-2 mb-10">
-                {categorias.map((cat) => (
-                  <span
-                    key={cat}
-                    className="px-4 py-1.5 rounded-full text-[11px] font-semibold tracking-wide uppercase transition-colors cursor-default"
-                    style={
-                      cat === "TODOS"
-                        ? { background: "rgba(232,212,77,0.15)", border: "1px solid rgba(232,212,77,0.3)", color: "#E8D44D" }
-                        : { background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)", color: "#A89EC0" }
-                    }
-                  >
-                    {cat === "TODOS" ? "Todos" : cat.replace(/_/g, " ")}
-                  </span>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {programas.map(p => <ProgramCard key={p.id} program={p} />)}
-              </div>
-            </>
+            <ProgramasClient programas={programas} />
           ) : (
             <div className="text-center py-24">
               <p className="text-gray-mid text-lg mb-2">Próximamente</p>

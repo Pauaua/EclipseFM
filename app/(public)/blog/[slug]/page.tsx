@@ -50,7 +50,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     <div className="bg-space-deep min-h-screen">
       {/* Hero del artículo */}
       <section
-        className="relative py-20 px-6"
+        className="relative py-12 md:py-20 px-4 sm:px-6"
         style={{
           background: "radial-gradient(ellipse at top center, rgba(124,58,237,0.2) 0%, transparent 70%), #08041A",
           borderBottom: "1px solid rgba(124,58,237,0.1)",
@@ -65,7 +65,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             <span className="text-gray-soft">{post.titulo}</span>
           </p>
           <span className="inline-block text-[10px] font-semibold tracking-widest uppercase text-yellow-DEFAULT mb-4">Blog</span>
-          <h1 className="font-display text-4xl md:text-5xl text-white tracking-wide leading-tight mb-6">{post.titulo}</h1>
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl text-white tracking-wide leading-tight mb-6">{post.titulo}</h1>
           {post.resumen && (
             <p className="text-gray-soft text-lg leading-relaxed mb-6">{post.resumen}</p>
           )}
@@ -88,7 +88,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         <div
           className="w-full rounded-2xl overflow-hidden flex items-center justify-center mb-10"
           style={{
-            height: "300px",
+            minHeight: "180px",
+            height: "clamp(180px, 30vw, 340px)",
             background: "linear-gradient(135deg, rgba(124,58,237,0.3) 0%, rgba(21,10,53,0.8) 100%)",
             border: "1px solid rgba(124,58,237,0.15)",
           }}

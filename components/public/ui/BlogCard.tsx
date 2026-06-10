@@ -13,7 +13,7 @@ export function BlogCardFeatured({ post }: { post: Post }) {
   return (
     <Link href={`/blog/${post.slug}`}>
       <div className="group flex flex-col md:flex-row gap-0 bg-space-card border border-yellow-border rounded-2xl overflow-hidden hover:shadow-yellow transition-all duration-300">
-        <div className="w-full md:w-[340px] md:min-w-[340px] h-44 md:h-auto bg-gradient-to-br from-purple-900 to-space-purple flex items-center justify-center">
+        <div className="w-full md:w-[300px] md:min-w-[260px] lg:min-w-[300px] h-44 md:h-auto bg-gradient-to-br from-purple-900 to-space-purple flex items-center justify-center">
           <span className="text-5xl">✍️</span>
         </div>
         <div className="p-5 md:p-6 flex flex-col justify-center">

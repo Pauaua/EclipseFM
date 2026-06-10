@@ -5,8 +5,8 @@ const nextConfig = {
       allowedOrigins: [
         "localhost:3000",
         "eclipsefm.vercel.app",
-        "www.eclipsefm.cl",
-        "eclipsefm.cl",
+        "www.radioeclipsefm.cl",
+        "radioeclipsefm.cl",
       ],
     },
   },

@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getPublishedPosts } from "@/lib/actions/posts.actions";
 import { getPublishedNoticias } from "@/lib/actions/noticias.actions";
 
-const BASE_URL = "https://eclipsefm.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.radioeclipsefm.cl";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [posts, noticias] = await Promise.all([
