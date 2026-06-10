@@ -42,7 +42,7 @@ const jsonLd = {
     "@type": "ContactPoint",
     telephone: "+56-9-7477-3659",
     contactType: "customer service",
-    email: "radioeclipsefm@hotmail.com",
+    email: "contacto@radioeclipsefm.cl",
     availableLanguage: "Spanish",
   },
   sameAs: [

@@ -8,7 +8,7 @@ const INFO = [
   { icon: "📍", label: "Dirección", value: "Av. O'Higgins #208 con Lo Bascuñán, Quilicura" },
   { icon: "📻", label: "Frecuencia", value: "107.7 FM" },
   { icon: "📞", label: "Teléfono", value: "+56 9 7477 3659" },
-  { icon: "✉️", label: "Email", value: "radioeclipsefm@hotmail.com" },
+  { icon: "✉️", label: "Email", value: "contacto@radioeclipsefm.cl" },
   { icon: "🕐", label: "Horario", value: "Lunes a Viernes · 09:00 – 18:00" },
 ];
 

@@ -83,7 +83,7 @@ export async function Footer() {
               <p>📍 Av. O'Higgins #208 con Lo Bascuñán, Quilicura</p>
               <p>📻 107.7 FM</p>
               <p>📞 +56 9 7477 3659</p>
-              <p>✉️ radioeclipsefm@hotmail.com</p>
+              <p>✉️ contacto@radioeclipsefm.cl</p>
             </div>
           </div>
         </div>
