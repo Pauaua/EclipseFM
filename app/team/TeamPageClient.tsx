@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { checkStreaming, type StreamStatus } from "@/lib/actions/streaming.actions";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -8,6 +9,8 @@ import { Modal } from "@/components/ui/Modal";
 import { Badge } from "@/components/ui/Badge";
 import { useToast } from "@/components/ui/Toast";
 import { createProposal } from "@/lib/actions/proposals.actions";
+
+type StreamingResults = { radio: StreamStatus; tv: StreamStatus };
 
 type Program = {
   id: string;
@@ -26,14 +29,27 @@ export function TeamPageClient({
   userName,
   userId,
   programs,
+  streaming: initialStreaming,
 }: {
   userName: string;
   userId: string;
   programs: Program[];
+  streaming: StreamingResults;
 }) {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const [openModal, setOpenModal] = useState<"idea" | "referral" | "sponsor" | null>(null);
+  const [streaming, setStreaming] = useState<StreamingResults>(initialStreaming);
+  const [checkingStream, setCheckingStream] = useState(false);
+
+  function refreshStreaming() {
+    setCheckingStream(true);
+    startTransition(async () => {
+      const fresh = await checkStreaming();
+      setStreaming(fresh);
+      setCheckingStream(false);
+    });
+  }
 
   // Forms
   const [ideaForm, setIdeaForm] = useState({ progTitulo: "", progConductor: "", progDescripcion: "", progHorario: "", progDias: [] as string[] });
@@ -116,6 +132,48 @@ export function TeamPageClient({
           Hola, <span className="text-[#E8D44D]">{userName}</span>. 👋
         </h1>
         <p className="text-[#7B6FA0] mt-1">Bienvenido al panel de Eclipse FM 107.7</p>
+      </div>
+
+      {/* Streaming status widget */}
+      <div
+        className="rounded-2xl p-5 mb-8"
+        style={{ background: "#1C1040", border: "1px solid rgba(168,85,247,0.15)" }}
+      >
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-white font-semibold text-sm">Estado del Streaming</p>
+          <button
+            onClick={refreshStreaming}
+            disabled={checkingStream}
+            className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all disabled:opacity-50"
+            style={{ background: "rgba(124,58,237,0.15)", border: "1px solid rgba(124,58,237,0.25)", color: "#A89EC0" }}
+          >
+            <span className={checkingStream ? "animate-spin inline-block" : ""}>↻</span>
+            {checkingStream ? "Verificando..." : "Actualizar"}
+          </button>
+        </div>
+        <div className="flex flex-wrap gap-6">
+          {[
+            { label: "📻 Radio", status: streaming.radio },
+            { label: "📺 Eclipse TV", status: streaming.tv },
+          ].map(({ label, status }) => (
+            <div key={label} className="flex items-center gap-2">
+              <span className="text-[#7B6FA0] text-sm">{label}</span>
+              <span
+                className="w-2 h-2 rounded-full"
+                style={{
+                  background: status.online ? "#34D399" : "#F87171",
+                  boxShadow: status.online ? "0 0 6px rgba(52,211,153,0.6)" : "0 0 6px rgba(248,113,113,0.4)",
+                }}
+              />
+              <span className="text-xs font-semibold" style={{ color: status.online ? "#34D399" : "#F87171" }}>
+                {status.online ? "En línea" : "Sin señal"}
+              </span>
+              {status.latency !== null && (
+                <span className="text-[#7B6FA0] text-xs">{status.latency}ms</span>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Action cards */}

@@ -146,13 +146,25 @@ export function UsuariosClient({ initialUsers }: { initialUsers: User[] }) {
                     {new Date(u.createdAt).toLocaleDateString("es-CL")}
                   </td>
                   <td className="px-4 py-3">
-                    <Button
-                      variant="danger"
-                      className="text-xs px-2 py-1"
-                      onClick={() => handleDelete(u.id, `${u.nombre} ${u.apellido}`)}
-                    >
-                      Eliminar
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      <a
+                        href={`https://webmail.radioeclipsefm.cl?user=${encodeURIComponent(u.email)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs px-2 py-1 rounded-md font-medium transition-colors"
+                        style={{ background: "rgba(124,58,237,0.15)", border: "1px solid rgba(124,58,237,0.3)", color: "#A89EC0" }}
+                        title="Abrir webmail"
+                      >
+                        ✉️ Mail
+                      </a>
+                      <Button
+                        variant="danger"
+                        className="text-xs px-2 py-1"
+                        onClick={() => handleDelete(u.id, `${u.nombre} ${u.apellido}`)}
+                      >
+                        Eliminar
+                      </Button>
+                    </div>
                   </td>
                 </tr>
               ))}

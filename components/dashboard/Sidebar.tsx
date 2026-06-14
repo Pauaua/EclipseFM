@@ -16,6 +16,7 @@ const navItems = [
   { href: "/dashboard/propuestas", label: "Propuestas", icon: "📬", badge: true },
   { href: "/dashboard/blog", label: "Blog", icon: "✍️" },
   { href: "/dashboard/noticias", label: "Noticias", icon: "📰" },
+  { href: "/dashboard/streaming", label: "Streaming", icon: "📡" },
   { href: "/dashboard/configuracion", label: "Configuración", icon: "⚙️" },
 ];
 
