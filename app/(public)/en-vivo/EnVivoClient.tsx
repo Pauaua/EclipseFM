@@ -92,8 +92,7 @@ export default function EnVivoPage() {
                   allow="autoplay; encrypted-media"
                   scrolling="no"
                   title="Eclipse FM Radio en vivo"
-                  className="w-full border-0 block"
-                  style={{ height: "320px" }}
+                  className="w-full border-0 block h-[280px] sm:h-[360px] lg:h-[480px]"
                 />
               ) : (
                 <iframe
@@ -102,8 +101,7 @@ export default function EnVivoPage() {
                   allowFullScreen
                   referrerPolicy="origin"
                   title="Eclipse TV en vivo"
-                  className="w-full h-full border-0 block"
-                  style={{ height: "320px" }}
+                  className="w-full border-0 block h-[280px] sm:h-[360px] lg:h-[480px]"
                 />
               )}
             </div>
