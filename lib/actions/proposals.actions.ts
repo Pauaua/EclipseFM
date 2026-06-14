@@ -7,6 +7,11 @@ import { ProposalType, ProposalStatus } from "@prisma/client";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "radioeclipsefm@hotmail.com";
+
+function escHtml(str: string) {
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
 
 const programIdeaSchema = z.object({
   tipo: z.literal(ProposalType.PROGRAM_IDEA),
@@ -58,11 +63,13 @@ export async function createProposal(data: z.infer<typeof proposalSchema>) {
 
   // Notificar al admin por email (sin bloquear la respuesta)
   const tipoLabel = PROPOSAL_LABELS[parsed.data.tipo];
-  const autorNombre = `${session.user.nombre} ${session.user.apellido}`;
+  const autorNombre = escHtml(`${session.user.nombre} ${session.user.apellido}`);
+  const autorEmail = escHtml(session.user.email ?? "");
+  const detalle = escHtml(JSON.stringify(parsed.data, null, 2).replace(/[{}",]/g, "").trim());
   resend.emails.send({
     from: "Eclipse FM <contacto@radioeclipsefm.cl>",
-    to: "radioeclipsefm@hotmail.com",
-    subject: `[Nueva propuesta] ${tipoLabel} — ${autorNombre}`,
+    to: ADMIN_EMAIL,
+    subject: `[Nueva propuesta] ${tipoLabel} — ${session.user.nombre} ${session.user.apellido}`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#08041A;color:#E2D9F3;padding:32px;border-radius:12px;border:1px solid rgba(124,58,237,0.2)">
         <h2 style="color:#E8D44D;font-size:20px;margin-bottom:4px">Eclipse FM — Nueva propuesta</h2>
@@ -70,16 +77,16 @@ export async function createProposal(data: z.infer<typeof proposalSchema>) {
         <table style="width:100%;border-collapse:collapse">
           <tr>
             <td style="padding:8px 0;color:#7B6FA0;font-size:12px;width:120px">TIPO</td>
-            <td style="padding:8px 0;color:#E8D44D;font-size:14px;font-weight:bold">${tipoLabel}</td>
+            <td style="padding:8px 0;color:#E8D44D;font-size:14px;font-weight:bold">${escHtml(tipoLabel)}</td>
           </tr>
           <tr>
             <td style="padding:8px 0;color:#7B6FA0;font-size:12px">ENVIADO POR</td>
-            <td style="padding:8px 0;color:#E2D9F3;font-size:14px">${autorNombre} (${session.user.email})</td>
+            <td style="padding:8px 0;color:#E2D9F3;font-size:14px">${autorNombre} (${autorEmail})</td>
           </tr>
         </table>
         <div style="margin-top:24px;padding:16px;background:rgba(124,58,237,0.08);border-radius:8px;border:1px solid rgba(124,58,237,0.15)">
           <p style="color:#7B6FA0;font-size:12px;margin:0 0 8px">DETALLE</p>
-          <pre style="color:#E2D9F3;font-size:13px;white-space:pre-wrap;margin:0;font-family:inherit">${JSON.stringify(parsed.data, null, 2).replace(/[{}",]/g, "").trim()}</pre>
+          <pre style="color:#E2D9F3;font-size:13px;white-space:pre-wrap;margin:0;font-family:inherit">${detalle}</pre>
         </div>
         <p style="color:#4B4270;font-size:12px;margin-top:24px">
           Revisa y gestiona esta propuesta en el panel: <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.radioeclipsefm.cl"}/dashboard/propuestas" style="color:#7C3AED">Ver propuestas</a>

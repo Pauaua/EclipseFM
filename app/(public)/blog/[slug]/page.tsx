@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getPublishedPostBySlug, getPublishedPosts } from "@/lib/actions/posts.actions";
+import { prisma } from "@/lib/prisma";
 import { BlogCardGrid } from "@/components/public/ui/BlogCard";
 import { SponsorSidebar } from "@/components/public/ui/SponsorSidebar";
 
@@ -16,6 +17,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return {
     title: post.titulo,
     description: post.resumen ?? `Lee este artículo en el blog de Eclipse FM 107.7`,
+    alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       title: post.titulo,
       description: post.resumen ?? `Lee este artículo en el blog de Eclipse FM 107.7`,
@@ -37,14 +39,15 @@ function formatDate(date: Date) {
 }
 
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const [post, allPosts] = await Promise.all([
-    getPublishedPostBySlug(params.slug),
-    getPublishedPosts(),
-  ]);
+  const post = await getPublishedPostBySlug(params.slug);
 
   if (!post) notFound();
 
-  const related = allPosts.filter(p => p.id !== post.id).slice(0, 3);
+  const related = await prisma.post.findMany({
+    where: { publicado: true, id: { not: post.id } },
+    orderBy: { createdAt: "desc" },
+    take: 3,
+  });
 
   return (
     <div className="bg-space-deep min-h-screen">

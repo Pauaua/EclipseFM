@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getPublishedNoticiaBySlug, getPublishedNoticias } from "@/lib/actions/noticias.actions";
+import { prisma } from "@/lib/prisma";
 import { NoticiaCardGrid } from "@/components/public/ui/NoticiaCard";
 import { SponsorSidebar } from "@/components/public/ui/SponsorSidebar";
 
@@ -16,6 +17,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return {
     title: noticia.titulo,
     description: noticia.resumen ?? `Última noticia de Quilicura en Eclipse FM 107.7`,
+    alternates: { canonical: `/noticias/${noticia.slug}` },
     openGraph: {
       title: noticia.titulo,
       description: noticia.resumen ?? `Última noticia de Quilicura en Eclipse FM 107.7`,
@@ -37,14 +39,15 @@ function formatDate(date: Date) {
 }
 
 export default async function NoticiaPage({ params }: { params: { slug: string } }) {
-  const [noticia, allNoticias] = await Promise.all([
-    getPublishedNoticiaBySlug(params.slug),
-    getPublishedNoticias(),
-  ]);
+  const noticia = await getPublishedNoticiaBySlug(params.slug);
 
   if (!noticia) notFound();
 
-  const related = allNoticias.filter(n => n.id !== noticia.id).slice(0, 4);
+  const related = await prisma.noticia.findMany({
+    where: { publicado: true, id: { not: noticia.id } },
+    orderBy: { createdAt: "desc" },
+    take: 4,
+  });
 
   return (
     <div className="bg-space-deep min-h-screen">

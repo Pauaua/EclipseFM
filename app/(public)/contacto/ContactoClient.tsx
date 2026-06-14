@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { PageHero } from "@/components/public/ui/PageHero";
 import { enviarContacto } from "@/lib/actions/contacto.actions";
 
@@ -17,6 +17,7 @@ export default function ContactoPage() {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const submitting = useRef(false);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -24,6 +25,8 @@ export default function ContactoPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (submitting.current) return;
+    submitting.current = true;
     setLoading(true);
     setError("");
 
@@ -33,6 +36,7 @@ export default function ContactoPage() {
       setSent(true);
     } else {
       setError(result.error ?? "Error al enviar el mensaje.");
+      submitting.current = false;
     }
     setLoading(false);
   }

@@ -4,6 +4,12 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "radioeclipsefm@hotmail.com";
+
+function escHtml(str: string) {
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
 type ContactoData = {
   nombre: string;
   email: string;
@@ -27,9 +33,14 @@ export async function enviarContacto(data: ContactoData) {
   }
 
   try {
+    const safeNombre = escHtml(nombre);
+    const safeEmail = escHtml(email);
+    const safeMensaje = escHtml(mensaje);
+    const safeAsunto = escHtml(ASUNTOS[asunto] ?? asunto);
+
     await resend.emails.send({
       from: "Eclipse FM <contacto@radioeclipsefm.cl>",
-      to: "radioeclipsefm@hotmail.com",
+      to: ADMIN_EMAIL,
       replyTo: email,
       subject: `[Contacto Web] ${ASUNTOS[asunto] ?? asunto} — ${nombre}`,
       html: `
@@ -40,24 +51,24 @@ export async function enviarContacto(data: ContactoData) {
           <table style="width:100%;border-collapse:collapse">
             <tr>
               <td style="padding:8px 0;color:#7B6FA0;font-size:12px;width:100px">NOMBRE</td>
-              <td style="padding:8px 0;color:#E2D9F3;font-size:14px">${nombre}</td>
+              <td style="padding:8px 0;color:#E2D9F3;font-size:14px">${safeNombre}</td>
             </tr>
             <tr>
               <td style="padding:8px 0;color:#7B6FA0;font-size:12px">EMAIL</td>
-              <td style="padding:8px 0;color:#E2D9F3;font-size:14px"><a href="mailto:${email}" style="color:#E8D44D">${email}</a></td>
+              <td style="padding:8px 0;color:#E2D9F3;font-size:14px"><a href="mailto:${safeEmail}" style="color:#E8D44D">${safeEmail}</a></td>
             </tr>
             <tr>
               <td style="padding:8px 0;color:#7B6FA0;font-size:12px">ASUNTO</td>
-              <td style="padding:8px 0;color:#E2D9F3;font-size:14px">${ASUNTOS[asunto] ?? asunto}</td>
+              <td style="padding:8px 0;color:#E2D9F3;font-size:14px">${safeAsunto}</td>
             </tr>
           </table>
 
           <div style="margin-top:20px;padding:16px;background:rgba(124,58,237,0.08);border-radius:8px;border:1px solid rgba(124,58,237,0.15)">
             <p style="color:#7B6FA0;font-size:12px;margin:0 0 8px">MENSAJE</p>
-            <p style="color:#E2D9F3;font-size:14px;line-height:1.7;margin:0;white-space:pre-wrap">${mensaje}</p>
+            <p style="color:#E2D9F3;font-size:14px;line-height:1.7;margin:0;white-space:pre-wrap">${safeMensaje}</p>
           </div>
 
-          <p style="color:#4B4270;font-size:11px;margin-top:24px;margin-bottom:0">Puedes responder directamente a este email para contactar a ${nombre}.</p>
+          <p style="color:#4B4270;font-size:11px;margin-top:24px;margin-bottom:0">Puedes responder directamente a este email para contactar a ${safeNombre}.</p>
         </div>
       `,
     });
