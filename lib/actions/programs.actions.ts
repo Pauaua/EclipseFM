@@ -17,7 +17,9 @@ const programSchema = z.object({
 
 async function requireAdmin() {
   const session = await auth();
-  if (!session || session.user.role !== "ADMIN") throw new Error("No autorizado");
+  if (!session || (session.user.role !== "ADMIN" && session.user.role !== "SUBADMIN" && session.user.role !== "TEAM")) {
+    throw new Error("No autorizado");
+  }
 }
 
 export async function getPrograms(soloActivos = false) {
