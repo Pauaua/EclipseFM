@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { EclipseLogo } from "@/components/EclipseLogo";
@@ -10,9 +11,10 @@ const navItems = [
   { href: "/team/programas", label: "Programas", icon: "📻" },
   { href: "/team/blog", label: "Blog", icon: "✍️" },
   { href: "/team/noticias", label: "Noticias", icon: "📰" },
+  { href: "/team/configuracion", label: "Configuracion", icon: "⚙️" },
 ];
 
-export function TeamSidebar() {
+function NavLinks({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname();
 
   function isActive(href: string, exact?: boolean) {
@@ -21,42 +23,102 @@ export function TeamSidebar() {
   }
 
   return (
-    <aside
-      className="fixed left-0 top-0 h-full w-[220px] flex flex-col z-20"
-      style={{ background: "#08041A", borderRight: "1px solid rgba(124,58,237,0.15)" }}
-    >
-      <div className="flex items-center gap-3 px-5 py-5 border-b border-[rgba(124,58,237,0.1)]">
-        <EclipseLogo size={34} />
-        <div>
+    <>
+      {navItems.map((item) => {
+        const active = isActive(item.href, item.exact);
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            onClick={onClose}
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${
+              active
+                ? "text-[#E8D44D] bg-[rgba(232,212,77,0.08)]"
+                : "text-[#7B6FA0] hover:text-white hover:bg-[rgba(124,58,237,0.1)]"
+            }`}
+            style={active ? { borderLeft: "3px solid #E8D44D", paddingLeft: "calc(0.75rem - 3px)" } : {}}
+          >
+            <span className="text-base">{item.icon}</span>
+            <span>{item.label}</span>
+          </Link>
+        );
+      })}
+    </>
+  );
+}
+
+export function TeamSidebar() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  return (
+    <>
+      {/* Mobile top bar */}
+      <div
+        className="lg:hidden fixed top-0 left-0 right-0 z-30 flex items-center justify-between px-4 py-3"
+        style={{ background: "#08041A", borderBottom: "1px solid rgba(124,58,237,0.15)" }}
+      >
+        <div className="flex items-center gap-2">
+          <EclipseLogo size={28} />
           <p className="font-display text-base tracking-wider text-[#E8D44D]">ECLIPSE FM</p>
-          <p className="text-[9px] text-[#7B6FA0] tracking-widest uppercase">Equipo</p>
         </div>
+        <button
+          onClick={() => setMobileOpen(o => !o)}
+          className="w-9 h-9 flex flex-col items-center justify-center gap-1.5 rounded-lg transition-colors hover:bg-[rgba(124,58,237,0.1)]"
+          aria-label="Menu"
+        >
+          <span className={`block w-5 h-0.5 bg-[#A89EC0] transition-all ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
+          <span className={`block w-5 h-0.5 bg-[#A89EC0] transition-all ${mobileOpen ? "opacity-0" : ""}`} />
+          <span className={`block w-5 h-0.5 bg-[#A89EC0] transition-all ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+        </button>
       </div>
 
-      <nav className="flex-1 px-3 py-4 space-y-0.5">
-        {navItems.map((item) => {
-          const active = isActive(item.href, item.exact);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${
-                active
-                  ? "text-[#E8D44D] bg-[rgba(232,212,77,0.08)]"
-                  : "text-[#7B6FA0] hover:text-white hover:bg-[rgba(124,58,237,0.1)]"
-              }`}
-              style={active ? { borderLeft: "3px solid #E8D44D", paddingLeft: "calc(0.75rem - 3px)" } : {}}
-            >
-              <span className="text-base">{item.icon}</span>
-              <span>{item.label}</span>
-            </Link>
-          );
-        })}
-      </nav>
+      {/* Mobile overlay */}
+      {mobileOpen && (
+        <div
+          className="lg:hidden fixed inset-0 z-20 bg-black/50"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
 
-      <div className="px-4 py-4 border-t border-[rgba(124,58,237,0.1)]">
-        <p className="text-[10px] text-[#7B6FA0] text-center">Eclipse FM © {new Date().getFullYear()}</p>
-      </div>
-    </aside>
+      {/* Mobile drawer */}
+      <aside
+        className={`lg:hidden fixed top-0 left-0 h-full w-[220px] flex flex-col z-30 transition-transform duration-300 ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
+        style={{ background: "#08041A", borderRight: "1px solid rgba(124,58,237,0.15)" }}
+      >
+        <div className="flex items-center gap-3 px-5 py-5 border-b border-[rgba(124,58,237,0.1)]">
+          <EclipseLogo size={34} />
+          <div>
+            <p className="font-display text-base tracking-wider text-[#E8D44D]">ECLIPSE FM</p>
+            <p className="text-[9px] text-[#7B6FA0] tracking-widest uppercase">Equipo</p>
+          </div>
+        </div>
+        <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+          <NavLinks onClose={() => setMobileOpen(false)} />
+        </nav>
+        <div className="px-4 py-4 border-t border-[rgba(124,58,237,0.1)]">
+          <p className="text-[10px] text-[#7B6FA0] text-center">Eclipse FM © {new Date().getFullYear()}</p>
+        </div>
+      </aside>
+
+      {/* Desktop sidebar */}
+      <aside
+        className="hidden lg:flex fixed left-0 top-0 h-full w-[220px] flex-col z-20"
+        style={{ background: "#08041A", borderRight: "1px solid rgba(124,58,237,0.15)" }}
+      >
+        <div className="flex items-center gap-3 px-5 py-5 border-b border-[rgba(124,58,237,0.1)]">
+          <EclipseLogo size={34} />
+          <div>
+            <p className="font-display text-base tracking-wider text-[#E8D44D]">ECLIPSE FM</p>
+            <p className="text-[9px] text-[#7B6FA0] tracking-widest uppercase">Equipo</p>
+          </div>
+        </div>
+        <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+          <NavLinks />
+        </nav>
+        <div className="px-4 py-4 border-t border-[rgba(124,58,237,0.1)]">
+          <p className="text-[10px] text-[#7B6FA0] text-center">Eclipse FM © {new Date().getFullYear()}</p>
+        </div>
+      </aside>
+    </>
   );
 }

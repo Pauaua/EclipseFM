@@ -17,9 +17,9 @@ export default async function TeamLayout({ children }: { children: React.ReactNo
     <div className="min-h-screen" style={{ background: "#0D0825" }}>
       <TeamSidebar />
 
-      <div className="ml-[220px] min-h-screen flex flex-col">
+      <div className="lg:ml-[220px] min-h-screen flex flex-col">
         <header
-          className="flex items-center justify-end px-8 py-4 sticky top-0 z-10"
+          className="flex items-center justify-end px-4 sm:px-8 py-4 sticky top-0 z-10 mt-[52px] lg:mt-0"
           style={{
             background: "rgba(13,8,37,0.95)",
             backdropFilter: "blur(12px)",
@@ -32,7 +32,7 @@ export default async function TeamLayout({ children }: { children: React.ReactNo
           />
         </header>
 
-        <main className="flex-1 p-8">{children}</main>
+        <main className="flex-1 p-4 sm:p-6 lg:p-8">{children}</main>
       </div>
     </div>
   );

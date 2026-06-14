@@ -39,6 +39,18 @@ export function ProfileButton({ user, sublabel }: ProfileButtonProps) {
           </div>
         </button>
 
+        <a
+          href="https://webmail.radioeclipsefm.cl"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs px-2 sm:px-3 py-1.5 rounded-full transition-colors"
+          style={{ background: "rgba(124,58,237,0.12)", border: "1px solid rgba(124,58,237,0.25)", color: "#A89EC0" }}
+          title={`Webmail: ${user.email}`}
+        >
+          <span className="hidden sm:inline">Correo</span>
+          <span className="sm:hidden">✉️</span>
+        </a>
+
         <form action={logoutAction}>
           <button
             type="submit"

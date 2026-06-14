@@ -1,5 +1,6 @@
 import { getDashboardStats } from "@/lib/actions/proposals.actions";
 import { auth } from "@/lib/auth";
+import { ProposalCards } from "./DashboardClient";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -66,6 +67,8 @@ export default async function DashboardPage() {
           </div>
         ))}
       </div>
+
+      {session?.user.role === "SUBADMIN" && <ProposalCards />}
 
       <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="bg-[#1C1040] border border-[rgba(168,85,247,0.1)] rounded-2xl p-6">

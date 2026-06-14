@@ -1,7 +1,11 @@
 import { getUsers } from "@/lib/actions/users.actions";
 import { UsuariosClient } from "./UsuariosClient";
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export default async function UsuariosPage() {
+  const session = await auth();
+  if (!session || session.user.role !== "ADMIN") redirect("/dashboard");
   const users = await getUsers();
   return (
     <div>
