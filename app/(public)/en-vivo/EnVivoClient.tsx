@@ -84,7 +84,6 @@ export default function EnVivoPage() {
               style={{
                 border: "1px solid rgba(124,58,237,0.2)",
                 background: "#000",
-                aspectRatio: tab === "tv" ? "16/9" : undefined,
               }}
             >
               {tab === "radio" ? (
@@ -94,7 +93,7 @@ export default function EnVivoPage() {
                   scrolling="no"
                   title="Eclipse FM Radio en vivo"
                   className="w-full border-0 block"
-                  style={{ height: "180px" }}
+                  style={{ height: "320px" }}
                 />
               ) : (
                 <iframe
@@ -104,7 +103,7 @@ export default function EnVivoPage() {
                   referrerPolicy="origin"
                   title="Eclipse TV en vivo"
                   className="w-full h-full border-0 block"
-                  style={{ minHeight: "240px", aspectRatio: "16/9" }}
+                  style={{ height: "320px" }}
                 />
               )}
             </div>
