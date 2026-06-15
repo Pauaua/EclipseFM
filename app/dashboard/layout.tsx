@@ -7,7 +7,8 @@ import { prisma } from "@/lib/prisma";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
-  if (!session || (session.user.role !== "ADMIN" && session.user.role !== "SUBADMIN")) redirect("/login");
+  if (!session || session.user.role === "TEAM") redirect("/login");
+  if (session.user.role === "SUBADMIN") redirect("/team");
 
   const [pendingCount, dbUser] = await Promise.all([
     getPendingProposalsCount(),
@@ -33,7 +34,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
           <div />
           <ProfileButton
             user={dbUser ?? session.user}
-            sublabel={session.user.role === "SUBADMIN" ? "Sub-Administrador" : "Administrador"}
+            sublabel="Administrador"
           />
         </header>
 

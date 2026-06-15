@@ -11,10 +11,11 @@ const navItems = [
   { href: "/team/programas", label: "Programas", icon: "📻" },
   { href: "/team/blog", label: "Blog", icon: "✍️" },
   { href: "/team/noticias", label: "Noticias", icon: "📰" },
+  { href: "/team/propuestas", label: "Propuestas", icon: "📬", subadminOnly: true },
   { href: "/team/configuracion", label: "Configuracion", icon: "⚙️" },
 ];
 
-function NavLinks({ onClose }: { onClose?: () => void }) {
+function NavLinks({ onClose, role }: { onClose?: () => void; role: string }) {
   const pathname = usePathname();
 
   function isActive(href: string, exact?: boolean) {
@@ -24,7 +25,7 @@ function NavLinks({ onClose }: { onClose?: () => void }) {
 
   return (
     <>
-      {navItems.map((item) => {
+      {navItems.filter(item => !item.subadminOnly || role === "SUBADMIN").map((item) => {
         const active = isActive(item.href, item.exact);
         return (
           <Link
@@ -47,7 +48,7 @@ function NavLinks({ onClose }: { onClose?: () => void }) {
   );
 }
 
-export function TeamSidebar() {
+export function TeamSidebar({ role = "TEAM" }: { role?: string }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
@@ -93,7 +94,7 @@ export function TeamSidebar() {
           </div>
         </div>
         <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-          <NavLinks onClose={() => setMobileOpen(false)} />
+          <NavLinks onClose={() => setMobileOpen(false)} role={role} />
         </nav>
         <div className="px-4 py-4 border-t border-[rgba(124,58,237,0.1)]">
           <p className="text-[10px] text-[#7B6FA0] text-center">Eclipse FM © {new Date().getFullYear()}</p>
@@ -113,7 +114,7 @@ export function TeamSidebar() {
           </div>
         </div>
         <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-          <NavLinks />
+          <NavLinks role={role} />
         </nav>
         <div className="px-4 py-4 border-t border-[rgba(124,58,237,0.1)]">
           <p className="text-[10px] text-[#7B6FA0] text-center">Eclipse FM © {new Date().getFullYear()}</p>

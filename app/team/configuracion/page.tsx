@@ -29,6 +29,24 @@ export default async function TeamConfiguracionPage() {
           </div>
         </div>
 
+        <div className="bg-[#1C1040] border border-[rgba(168,85,247,0.1)] rounded-2xl p-6">
+          <h2 className="font-semibold text-white mb-4">Sistema</h2>
+          <div className="space-y-3 text-sm">
+            {[
+              { label: "Version", value: "1.0.0" },
+              { label: "Framework", value: "Next.js 14 (App Router)" },
+              { label: "Base de datos", value: "PostgreSQL (Neon)" },
+              { label: "Hosting", value: "Vercel + Cloudflare" },
+              { label: "Streaming", value: "tustreaming.cl" },
+            ].map(({ label, value }) => (
+              <div key={label} className="flex justify-between">
+                <span className="text-[#7B6FA0]">{label}</span>
+                <span className="text-white">{value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="bg-[#1C1040] border border-[rgba(168,85,237,0.1)] rounded-2xl p-6">
           <h2 className="font-semibold text-white mb-4">Accesos</h2>
           <div className="space-y-3 text-sm">

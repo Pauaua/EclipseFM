@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 
 export default async function TeamLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
-  if (!session || session.user.role !== "TEAM") redirect("/login");
+  if (!session || (session.user.role !== "TEAM" && session.user.role !== "SUBADMIN")) redirect("/login");
 
   const dbUser = await prisma.user.findUnique({
     where: { id: session.user.id },
@@ -15,7 +15,7 @@ export default async function TeamLayout({ children }: { children: React.ReactNo
 
   return (
     <div className="min-h-screen" style={{ background: "#0D0825" }}>
-      <TeamSidebar />
+      <TeamSidebar role={session.user.role} />
 
       <div className="lg:ml-[220px] min-h-screen flex flex-col">
         <header
@@ -28,7 +28,7 @@ export default async function TeamLayout({ children }: { children: React.ReactNo
         >
           <ProfileButton
             user={dbUser ?? session.user}
-            sublabel="Equipo Eclipse FM"
+            sublabel={session.user.role === "SUBADMIN" ? "Sub-Administrador" : "Equipo Eclipse FM"}
           />
         </header>
 

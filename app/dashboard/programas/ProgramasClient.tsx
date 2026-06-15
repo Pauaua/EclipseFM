@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Switch } from "@/components/ui/Switch";
 import { useToast } from "@/components/ui/Toast";
 import { createProgram, updateProgram, deleteProgram, toggleProgramStatus } from "@/lib/actions/programs.actions";
+import { createProposal } from "@/lib/actions/proposals.actions";
 
 type Program = {
   id: string;
@@ -47,14 +48,16 @@ const emptyForm = {
   horarioInicio: "", horarioFin: "", dias: [] as string[], categoria: "MUSICA",
 };
 
-export function ProgramasClient({ initialPrograms }: { initialPrograms: Program[] }) {
+export function ProgramasClient({ initialPrograms, canCreate = true }: { initialPrograms: Program[]; canCreate?: boolean }) {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const [programs, setPrograms] = useState(initialPrograms);
   const [modalOpen, setModalOpen] = useState(false);
+  const [proposeOpen, setProposeOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [formError, setFormError] = useState("");
+  const [proposeForm, setProposeForm] = useState({ progTitulo: "", progConductor: "", progDescripcion: "", progHorario: "" });
 
   function openCreate() {
     setEditingId(null);
@@ -126,10 +129,28 @@ export function ProgramasClient({ initialPrograms }: { initialPrograms: Program[
     });
   }
 
+  async function handlePropose(e: React.FormEvent) {
+    e.preventDefault();
+    startTransition(async () => {
+      const res = await createProposal({ tipo: "PROGRAM_IDEA", ...proposeForm });
+      if (res.success) {
+        toast("Propuesta enviada al administrador");
+        setProposeOpen(false);
+        setProposeForm({ progTitulo: "", progConductor: "", progDescripcion: "", progHorario: "" });
+      } else {
+        toast(res.error || "Error", "error");
+      }
+    });
+  }
+
   return (
     <>
       <div className="flex justify-end mb-4">
-        <Button onClick={openCreate}>+ Nuevo Programa</Button>
+        {canCreate ? (
+          <Button onClick={openCreate}>+ Nuevo Programa</Button>
+        ) : (
+          <Button onClick={() => setProposeOpen(true)}>+ Proponer Programa</Button>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -172,6 +193,19 @@ export function ProgramasClient({ initialPrograms }: { initialPrograms: Program[
           <p className="col-span-3 text-center text-[#7B6FA0] py-16">No hay programas registrados.</p>
         )}
       </div>
+
+      <Modal open={proposeOpen} onClose={() => setProposeOpen(false)} title="Proponer nuevo programa" size="lg">
+        <form onSubmit={handlePropose} className="space-y-4">
+          <Input label="Titulo del programa *" value={proposeForm.progTitulo} onChange={e => setProposeForm(f => ({ ...f, progTitulo: e.target.value }))} required />
+          <Input label="Conductor propuesto" value={proposeForm.progConductor} onChange={e => setProposeForm(f => ({ ...f, progConductor: e.target.value }))} />
+          <Textarea label="Descripcion" value={proposeForm.progDescripcion} onChange={e => setProposeForm(f => ({ ...f, progDescripcion: e.target.value }))} />
+          <Input label="Horario sugerido" value={proposeForm.progHorario} onChange={e => setProposeForm(f => ({ ...f, progHorario: e.target.value }))} placeholder="Ej: 14:00 - 16:00" />
+          <div className="flex gap-3 justify-end pt-2">
+            <Button variant="ghost" type="button" onClick={() => setProposeOpen(false)}>Cancelar</Button>
+            <Button type="submit" loading={isPending}>Enviar propuesta</Button>
+          </div>
+        </form>
+      </Modal>
 
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={editingId ? "Editar Programa" : "Nuevo Programa"} size="lg">
         <form onSubmit={handleSubmit} className="space-y-4">
