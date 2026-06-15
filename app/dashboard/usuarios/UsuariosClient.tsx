@@ -148,7 +148,7 @@ export function UsuariosClient({ initialUsers }: { initialUsers: User[] }) {
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       <a
-                        href={`https://webmail.radioeclipsefm.cl?user=${encodeURIComponent(u.email)}`}
+                        href={`https://webmail.radioeclipsefm.cl:2096?user=${encodeURIComponent(u.email)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-xs px-2 py-1 rounded-md font-medium transition-colors"

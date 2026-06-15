@@ -40,7 +40,7 @@ export function ProfileButton({ user, sublabel }: ProfileButtonProps) {
         </button>
 
         <a
-          href="https://webmail.radioeclipsefm.cl"
+          href="https://webmail.radioeclipsefm.cl:2096"
           target="_blank"
           rel="noopener noreferrer"
           className="text-xs px-2 sm:px-3 py-1.5 rounded-full transition-colors"

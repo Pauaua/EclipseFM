@@ -33,7 +33,7 @@ export default async function TeamConfiguracionPage() {
           <h2 className="font-semibold text-white mb-4">Accesos</h2>
           <div className="space-y-3 text-sm">
             <a
-              href="https://webmail.radioeclipsefm.cl"
+              href="https://webmail.radioeclipsefm.cl:2096"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-between p-3 rounded-lg transition-colors hover:bg-[rgba(124,58,237,0.08)]"
