@@ -19,7 +19,7 @@ import { NoticiaCardFeatured, NoticiaCardGrid } from "@/components/public/ui/Not
 import { EclipseLogo } from "@/components/EclipseLogo";
 
 async function getSponsors() {
-  try { return await prisma.sponsor.findMany({ where: { activo: true }, take: 4 }); }
+  try { return await prisma.sponsor.findMany({ where: { activo: true }, take: 10 }); }
   catch { return []; }
 }
 
