@@ -37,7 +37,7 @@ const HORARIOS: Record<string, string> = {
 };
 
 const DIRECCIONES: Record<string, string> = {
-  "Bodegón de la Cerámica": "Ojos del Salado #821, Quilicura",
+  "Bodegón de la Cerámica": "Ojos del Salado #0811, Quilicura — Entrando por Lo Echevers",
 };
 
 type Sponsor = { id: string; empresa: string };
