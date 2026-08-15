@@ -6,16 +6,15 @@ export const metadata: Metadata = {
   description: "Radio Eclipse FM 107.7 — Tu radio en el espacio. Música, noticias y entretenimiento desde Quilicura para Chile y el mundo. Transmisión 24/7 online y en el aire.",
   alternates: { canonical: "/" },
 };
-import { getPublishedPosts } from "@/lib/actions/posts.actions";
-import { getPublishedNoticias } from "@/lib/actions/noticias.actions";
 import { getPrograms } from "@/lib/actions/programs.actions";
+import { getInstagramFeed } from "@/lib/instagram";
 import { prisma } from "@/lib/prisma";
 import { SectionTag } from "@/components/public/ui/SectionTag";
 import { SponsorCarousel } from "@/components/public/ui/SponsorCarousel";
 import { SponsorScrollStrip } from "@/components/public/ui/SponsorScrollStrip";
 import { ProgramCard } from "@/components/public/ui/ProgramCard";
-import { BlogCardCompact, BlogCardGrid } from "@/components/public/ui/BlogCard";
-import { NoticiaCardFeatured, NoticiaCardGrid } from "@/components/public/ui/NoticiaCard";
+import { InstagramFeed } from "@/components/public/ui/InstagramFeed";
+import { FacebookPagePlugin } from "@/components/public/ui/FacebookPagePlugin";
 import { EclipseLogo } from "@/components/EclipseLogo";
 
 async function getSponsors() {
@@ -52,11 +51,10 @@ const jsonLd = {
 };
 
 export default async function HomePage() {
-  const [posts, noticias, programas, sponsors] = await Promise.all([
-    getPublishedPosts(),
-    getPublishedNoticias(),
+  const [programas, sponsors, instagramMedia] = await Promise.all([
     getPrograms(true),
     getSponsors(),
+    getInstagramFeed(),
   ]);
 
   return (
@@ -170,56 +168,26 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── BLOG PREVIEW ── */}
-      <section className="py-20 px-6 bg-space-black">
-        <div className="max-w-6xl mx-auto">
-          <SectionTag text="Del estudio" />
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-white tracking-wide mb-8 md:mb-10">Últimas del Blog</h2>
-          {posts.length > 0 ? (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-                {posts.slice(0, 3).map(p => <BlogCardGrid key={p.id} post={p} />)}
-              </div>
-              <div className="text-center mt-10">
-                <Link href="/blog"
-                  className="px-8 py-3 rounded-full text-sm font-semibold text-yellow-DEFAULT transition-colors hover:bg-yellow-soft"
-                  style={{ border: "1px solid rgba(232,212,77,0.22)" }}>
-                  Ver todo el blog →
-                </Link>
-              </div>
-            </>
-          ) : (
-            <p className="text-gray-mid text-center py-12">Pronto publicaremos nuestros primeros artículos.</p>
-          )}
-        </div>
-      </section>
-
-      {/* ── NOTICIAS PREVIEW ── */}
+      {/* ── NOTICIAS PREVIEW (Facebook + Instagram) ── */}
       <section className="py-20 px-6 bg-space-deep">
         <div className="max-w-6xl mx-auto">
           <SectionTag text="Quilicura hoy" />
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-white tracking-wide mb-8 md:mb-10">Últimas Noticias</h2>
-          {noticias.length > 0 ? (
-            <>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2">
-                  <NoticiaCardFeatured noticia={noticias[0]} />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            <FacebookPagePlugin />
+            <div>
+              <InstagramFeed media={instagramMedia} />
+              {instagramMedia.length > 0 && (
+                <div className="text-center mt-6">
+                  <a href="https://www.instagram.com/radioeclipsefm" target="_blank" rel="noopener noreferrer"
+                    className="px-8 py-3 rounded-full text-sm font-semibold text-yellow-DEFAULT transition-colors hover:bg-yellow-soft inline-block"
+                    style={{ border: "1px solid rgba(232,212,77,0.22)" }}>
+                    Ver más en Instagram →
+                  </a>
                 </div>
-                <div className="flex flex-col gap-4">
-                  {noticias.slice(1, 3).map(n => <NoticiaCardGrid key={n.id} noticia={n} />)}
-                </div>
-              </div>
-              <div className="text-center mt-10">
-                <Link href="/noticias"
-                  className="px-8 py-3 rounded-full text-sm font-semibold text-yellow-DEFAULT transition-colors hover:bg-yellow-soft"
-                  style={{ border: "1px solid rgba(232,212,77,0.22)" }}>
-                  Ver todas las noticias →
-                </Link>
-              </div>
-            </>
-          ) : (
-            <p className="text-gray-mid text-center py-12">Pronto las últimas noticias de Quilicura.</p>
-          )}
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
